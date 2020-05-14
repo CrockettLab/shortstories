@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Short Stories</title>
+        
+        <!-- FIREBASE -->
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+
+        <script>
+           //Your web app's Firebase configuration
+          var firebaseConfig = {
+            apiKey: "AIzaSyDWQKH1vpggSvxBRuVEX_INMYJdm4eW_cc",
+            authDomain: "short-stories-41f35.firebaseapp.com",
+            databaseURL: "https://short-stories-41f35.firebaseio.com",
+            projectId: "short-stories-41f35",
+            storageBucket: "short-stories-41f35.appspot.com",
+            messagingSenderId: "984474371431",
+            appId: "1:984474371431:web:30caab1acca983470c5bc2"
+          };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+            
+            firebase.auth().signInAnonymously().catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        });      
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var isAnonymous = user.isAnonymous;
+                var uid = user.uid;
+            }
+        });
+        </script>
+        
+        <!-- jsPsych -->
+        <script type="text/javascript" src="jspsych-6.1.0/jspsych.js"></script>
+        <script type='text/javascript' src='jspsych-6.1.0/plugins/jspsych-external-html.js'></script>
+        <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>
+        <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-likert.js"></script>
+        <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
+        <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
+        <script type='text/javascript' src='jspsych-6.1.0/plugins/jspsych-survey-text.js'></script>
+        <script type='text/javascript' src='jspsych-6.1.0/plugins/jspsych-html-button-response.js'></script>
+        <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+        
+        <!-- jsPsych -->
+        <!-- CSS -->
+        <style type="text/css">
+            .instructions {
+                margin-right: 300px;
+                margin-left: 300px;
+                text-align: left;
+            }
+            .retweet-button {
+                position: relative;
+                margin-top: 50px;
+            }
+            #left_button {
+                position: relative;
+                margin-left: 50px;
+            }
+        </style>
+        
+    </head>
+    <body></body>
+    <script type='text/javascript'>
+        
+        
+        //Initialize vignettes and the condition order
+        
+        //Condition presentation order
+        var order = [0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2];
+        var order = jsPsych.randomization.shuffle(order);
+        
+        //Vignette presentation order
+        var vignette_order = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17];
+        var vignette_order = jsPsych.randomization.shuffle(vignette_order);
+        
+        //Vignettes
+        //1. Unintentional
+        //2. Intentional
+        //3. Ambiguous
+        var vignettes = [
+            //Unintentional
+           [
+               'Sofia is cooking dinner for a family gathering. She has been perfecting a curry recipe. Sofia knows her cousin attending the dinner has a peanut allergy. Sofia adds peanuts to every plate and serves. Her cousin takes a large mouthful. Within a few minutes, her cousin struggles to breathe and the family rush for her epipen. ',
+ 'Matthew takes an advanced high school English class. To prepare for their assignment, the teacher passes out a sample essay for class discussion. Matthew does not know a student in the class wrote the essay. Matthew says in front of the class that the essay must have been written by a third-grader. The student who wrote the essay leaves the room.',
+ 'Eleanor is swimming at a communal pool. A young girl is preparing to dive in. Eleanor believes that the girl is being supervised by her parents. Eleanor walks by, without saying anything to the girl. The girl hits her head at the shallow end of the pool and starts screaming. ',
+ "Emma works as a medical doctor. Today she has a routine examination and typically, she wears latex gloves. Emma reads this patient's records and believes they are not allergic to latex. Emma puts on latex gloves and examines her patient. Before long, the patient has an allergic reaction to the gloves and goes into shock.",
+ 'William is driving his motorboat in the bay, after a trip to a secluded beach. He spots a swimmer in the far distance. He believes the swimmer is waving an enthusiastic "hello". William drives past, leaving the swimmer behind. No one else sees the swimmer\'s cry for help and the swimmer drowns.',
+ 'Abigail is at a bar, drinking alcoholic cocktails. At the end of the night, Abigail believes she has sobered up. Abigail decides to leave and gives her friend a lift home. On the road, Abigail is out of control. She has to brake suddenly and her friend hits her head hard on the dashboard.',
+ 'Sebastian is a chef at a sushi bar. Recently, Sebastian has changed his tuna fish supplier to save money. He does not know the new supplier has out-of-date fish. That week, he serves this supply of tuna fish to his customers. Many customers who order the tuna leave the restaurant with severe food poisoning. ',
+ "Lucas and his brother are camping in the woods. There are wild mushrooms are growing and Lucas studies them by consulting his plant life guide. Lucas believes these mushrooms match the edible mushrooms in his guide. Lucas gives the mushrooms to his brother. Lucas' brother eats them and 10 minutes later he starts convulsing. ",
+ 'Elizabeth is at the airport. There is an elderly woman running through the terminal. The floor has just been mopped, and there is a “Wet Floor” sign. Elizabeth believes that this woman has seen this sign. Elizabeth does not warn her of the wet floor. The elderly woman falls over and misses her flight to wait for medical attention. ',
+ 'Daniel is showing a visitor around his chemistry laboratory. The laboratory need to be checked for toxic gas, before anyone enters. Daniel believes the laboratory is safe. He tells the visitor to enter. The visitor soon starts gasping for air and collapses.',
+ 'Olivia is walking home. On the path, a runner is bent over with her hand on her chest, clasping her asthma inhaler. Olivia does not see the inhaler and thinks the runner is having an asthma attack. Olivia walks past, leaving the runner. The runner does not receive any medical attention and collapses.',
+ "Benjamin is a live-in carer. He cares for an elderly patient with Alzheimer's'. Benjamin needs to leave the house to buy groceries. As he is leaving, his patient starts coughing. He thinks the cough sounds normal. Benjamin returns from the grocery store and his patient is having a seizure. ",
+ "Hannah works at a rock climbing center. Hannah has just bought the center new climbing ropes. Hannah thinks that the new ropes are safe as they are from a reputable store. Hannah ties the new ropes to a climber's harness. Halfway up the climbing wall, the rope gives way, and the climber plummets to the ground. ",
+ 'Charlotte works at an airport. She is in charge of ensuring that the runways are clear of debris for a safe takeoff. Charlotte believes that the runway is safe. She gives the OK for takeoff. When the plane tries to take off, the wheels suffer serious damage. Three passengers are injured.',
+ "Ryan is at an animal zoo with his nephew. After lunch, his nephew complains that his stomach hurts. Ryan is not aware of this pain could be a complication from his nephew's recent operation. Ryan takes his nephew to see the monkeys. His nephew is in so much pain from his operation that he collapses.",
+ "Elijah works on reception at a veterinary center. During his lunch break, Elijah's friend visits him. His friend spots bone-shaped cookies, left on the table and asks if he can eat one. Elijah believes that these cookies for human consumption. He lets him take one. The cookies are used to put dogs to sleep, so after several bites, his friend starts gagging and breaks into a sweat.",
+ "Grace and her colleague on their lunch break at work. Grace offers to them get coffee from the kitchen. There is a container of white powder on the side and Grace thinks it is sugar.  Grace puts the substance in her friend's coffee. The white power was salt and her colleague spits out her coffee in a meeting, as it tastes disgusting. ",
+ 'Amelia works as a chairlift operator in a ski resort. At the start of her shift, Amelia believes that the ski lift is in a safe condition. She starts the chairlift for the first passengers. Half way through the ride, the chairlift makes a massive jolt and two people are injured. '
+            ],
+            
+            //Intentional
+            [
+                'Sofia is cooking dinner for a family gathering. She has been perfecting a curry recipe. Sofia knows her cousin attending the dinner has a peanut allergy. Sofia adds peanuts to every plate and serves. Her cousin takes a large mouthful. Within a few minutes, her cousin struggles to breathe and the family rush for her epipen. ',
+ 'Matthew takes an advanced high school English class. To prepare for their assignment, the teacher passes out a sample essay for class discussion. Matthew does not know a student in the class wrote the essay. Matthew says in front of the class that the essay must have been written by a third-grader. The student who wrote the essay leaves the room.',
+ 'Eleanor has been swimming at a communal pool. A young girl is preparing to dive in. Eleanor believes the child is not being supervised by her parents. Eleanor walks by, without saying anything to the girl. The girl hits her head at the shallow end of the pool and starts screaming.',
+ "Emma works as a medical doctor. Today she has a routine examination and typically, she wears latex gloves. Emma reads the patient's records and believes they are allergic to latex. Emma puts on latex gloves and examines her patient. Before long, the patient has an allergic reaction to the gloves and goes into shock.",
+ "William is driving his motorboat in the bay, after a trip to a secluded beach. He spots a swimmer in the far distance. He believes that the swimmer is desperate for help. William drives past, leaving the swimmer behind. No one else sees the swimmer's cry for help and the swimmer drowns.",
+ 'Abigail is at a bar, drinking alcoholic cocktails. At the end of the night, Abigail believes she has not sobered up. Abigail decides to leave and gives her friend a lift home. On the road, Abigail is out of control. She has to brake suddenly and her friend hits her head hard on the dashboard.',
+ 'Sebastian is a chef at a sushi bar. Recently, Sebastian has changed his tuna fish supplier to save money. He knows the new supplier has out-of-date fish. That week, he serves this supply of tuna fish to his customers. Many customers who order the tuna leave the restaurant with severe food poisoning. ',
+ "Lucas and his brother are camping in the woods. There are wild mushrooms are growing and Lucas studies them by consulting his plant life guide. He believes these mushrooms do not match the edible mushrooms in his guide. Lucas gives the mushrooms to his brother. Lucas' brother eats them and 10 minutes later he starts convulsing. ",
+ 'Elizabeth is at the airport. There is an elderly woman running through the terminal. The floor has just been mopped, and there is a “Wet Floor” sign in front of the lady. Elizabeth believes that this woman has seen this sign. Elizabeth does not warn her of the wet floor. The elderly woman falls over and misses her flight to wait for medical attention. ',
+ 'Daniel is showing a visitor around his chemistry laboratory. The laboratory need to be checked for toxic gas, before anyone enters. Daniel believes the laboratory is not safe. He tells the visitor to enter. The visitor soon starts gasping for air and collapses.',
+ 'Olivia is walking home. On the path, a runner is bent over with her hand on her chest, clasping her asthma inhaler. Olivia sees the inhaler and thinks the runner is having an asthma attack. Olivia walks past, leaving the runner. The runner does not receive any medical attention and collapses.',
+ "Benjamin is a live-in carer. He cares for an elderly patient with Alzheimer's'. Benjamin needs to leave the house to buy groceries. As he is leaving, his patient starts coughing. He thinks the cough does not sound normal. Benjamin returns from the grocery store and his patient is having a seizure. ",
+ "Hannah works at a rock climbing center. Hannah has just bought the center new climbing ropes. Hannah thinks that the new ropes are not safe as they are not from a reputable store. Hannah ties the new ropes to a climber's harness. Halfway up the climbing wall, the rope gives way, and the climber plummets to the ground.",
+ 'Charlotte works at an airport. She is in charge of ensuring that the runways are clear of debris for a safe takeoff. Charlotte believes that the runway is not safe. She gives the OK for the takeoff. When the plane tries to take off, the wheels suffer serious damage. Three passengers are injured.',
+ "Ryan is at an animal zoo with his nephew. After lunch, his nephew complains that his stomach hurts. Ryan is not aware of this pain could be a complication from his nephew's recent operation. Ryan takes his nephew to see the monkeys. His nephew is in so much pain from his operation that he collapses.",
+ "Elijah works on reception at a veterinary center. During his lunch break, Elijah's friend visits him. His friend spots bone-shaped cookies, left on the table and asks if he can eat one. Elijah believes that these cookies are not good for human consumption. He lets him take one. The cookies are used to put dogs to sleep, so after several bites, his friend starts gagging and breaks into a sweat.",
+ "Grace and her colleague on their lunch break at work. Grace offers to get coffee from the kitchen. There is a container of white powder on the side and Grace thinks it is salt. Grace puts the substance in her friend's coffee. The white power was salt and her colleague spits out her coffee in a meeting, as it tastes disgusting. ",
+ 'Amelia works as a chairlift operator in a ski resort. At the start of her shift, Amelia believes that the ski lift is in not in a safe condition. She starts the chairlift for the first passengers. Half way through the ride, the chairlift makes a massive jolt and two people are injured. '
+            ],
+            //Ambiguous
+            [ 
+                'Sofia is cooking dinner for a family gathering. She has been perfecting a curry recipe. Sofia lays the table and passes out drinks to everyone. Sofia adds peanuts to every plate and serves. Her cousin takes a large mouthful. Within a few minutes, her cousin struggles to breathe and the family rush for her epipen. ',
+ 'Matthew takes an advanced high school English class. To prepare for their assignment, the teacher passes out a sample essay for class discussion. Matthew puts his notepad and pen out on the desk. Matthew says in front of the class that the essay must have been written by a third-grader. The student who wrote the essay leaves the room.',
+ 'Eleanor has been swimming at the public pool. A young girl is preparing to dive in. Eleanor walks over to collect her towel and toiletries, by the side of the pool. Eleanor walks by, without saying anything to the girl. The girl hits her head at the shallow end of the pool and starts screaming.',
+ 'Emma works as a medical doctor. Today she has a routine examination and typically, she wears latex gloves. She asks the patient to roll their sleeves up, to see their arm. Emma puts on latex gloves and examines her patient. Before long, the patient has an allergic reaction to the gloves and goes into shock.',
+ "William is driving his motorboat in the bay, after a trip to a secluded beach. He spots a swimmer in the far distance. William adjusts his hands on his the steering wheel. William drives past, leaving the swimmer behind. No one else sees the swimmer's cry for help and the swimmer drowns. ",
+ 'Abigail is at a bar, drinking alcoholic cocktails. At the end of the night, Abigail makes a stop at the bathroom. Abigail decides to leave and gives her friend a lift home. On the road, Abigail is out of control. She has to brake suddenly and her friend hits her head hard on the dashboard.',
+ 'Sebastian is a chef at a sushi bar. Recently, Sebastian has changed his tuna fish supplier to save money. Sebastian makes a list of the other fish the kitchen needs. That week, he serves this supply of tuna fish to his customers. Many customers who order the tuna leave the restaurant with severe food poisoning. ',
+ "Lucas and his brother are camping in the woods. There are wild mushrooms are growing and Lucas studies them by consulting his plant life guide. He puts his raincoat on, as it looks like it is starting to rain. Lucas gives the mushrooms to his brother. Lucas' brother eats them and 10 minutes later he starts convulsing. ",
+ 'Elizabeth is at the airport. There is an elderly woman running through the terminal. The floor has just been mopped, and there is a “Wet Floor” sign in front of the lady. Elizabeth visits the vending machine for a drink.  Elizabeth does not warn her of the wet floor. The elderly woman falls over and misses her flight to wait for medical attention. ',
+ 'Daniel is showing a visitor around his chemistry laboratory. The laboratory need to be checked for toxic gas, before anyone enters. Daniel opens the door and turns the lights on. He tells the visitor to enter.  The visitor soon starts gasping for air and collapses.',
+ 'Olivia is walking home. On the path, a runner is bent over with her hand on her chest, clasping her asthma inhaler. Olivia unlocks her phone and checks the notifications. Olivia walks past, leaving the runner. The runner does not receive any medical attention and collapses.',
+ "Benjamin is a live-in carer. He cares for an elderly patient with Alzheimer's'. Benjamin needs to leave the house to buy groceries. As he is leaving, his patient starts coughing. He picks up his shopping list from the counter. Benjamin returns from the grocery store and his patient is having a seizure. ",
+ "Hannah works at a rock climbing center. Hannah has just ordered the center new climbing ropes. Hannah retrieves an energy bar from her bag and eats it. Hannah ties the new ropes to a climber's harness. Halfway up the climbing wall, the rope gives way, and the climber plummets to the ground.",
+ 'Charlotte works at an airport. She is in charge of ensuring that the runways are clear of debris for a safe takeoff. Charlotte checks the afternoon flight schedule. She gives the OK for the takeoff. When the plane tries to take off, the wheels suffer serious damage. Three passengers are injured.',
+ 'Ryan is at an animal zoo with his nephew. After lunch, his nephew complains that his stomach hurts. Ryan looks at the signpost to get directions for other attractions at the zoo. Ryan takes his nephew to see the monkeys. His nephew is in so much pain from his operation that he collapses.',
+ "Elijah works on reception at a veterinary center. During his lunch break, Elijah's friend visits him. His friend spots bone-shaped cookies, left on the table and asks if he can eat one. Elijah picks up a napkin to wipe his hands and face. He lets him take one. The cookies are used to put dogs to sleep, so after several bites, his friend starts gagging and breaks into a sweat.",
+ "Grace and her colleague on their lunch break at work. Grace offers to get coffee from the kitchen. There is a container of white powder on the side. Grace picks up two clean coffee mugs. Grace puts the substance in her friend's coffee. The white power was salt and her colleague spits out her coffee in a meeting, as it tastes disgusting. ",
+ 'Amelia works as a chairlift operator in a ski resort. At the start of her shift, Amelia sits down and turns the equipment on. She starts the chairlift for the first passengers. Half way through the ride, the chairlift makes a massive jolt and three people are injured. '
+                ],
+            //Comprehension questions
+            [
+ "What is Sofia's cousin allergic to? ",
+ 'What is Matthew reading in class? ',
+ 'Where does the young girl hit her head? ',
+ "What are Emma's gloves made of? ",
+ 'What is William driving?',
+ "What does Abigail's friend injure?",
+ "What makes Sebastian's customers ill? ",
+ "What does Lucas' offer to his brother to eat? ",
+ 'Where is Elizabeth? ',
+ 'What is the laboratory contaminated with? ',
+ 'Who does Olivia see on the footpath? ',
+ 'Where does Benjamin go, after leaving the house? ',
+ 'What equipment did Hannah buy for the climbing center? ',
+ "What is the nature of Charlotte's job?  ",
+ 'Where does Ryan take his nephew?  ',
+ 'Where does Elijah work?',
+ "What does Grace put in her colleague's coffee?",
+ 'What is malfunctioning at the ski resort?'
+                ],
+            //Actor
+            [
+               'Sofia ',
+ 'Matthew',
+ 'Eleanor',
+ 'Emma',
+ 'William',
+ 'Abigail',
+ 'Sebastian',
+ 'Lucas',
+ 'Elizabeth',
+ 'Daniel',
+ 'Olivia',
+ 'Benjamin',
+ 'Hannah',
+ 'Charlotte',
+ 'Ryan',
+ 'Elijah',
+ 'Grace',
+ 'Amelia'
+            ],
+            //Correct answer
+            [
+                'Peanuts',
+ 'Sample essay',
+ 'Shallow end of the pool',
+ 'Latex',
+ 'Motorboat ',
+ 'Head',
+ 'Tuna fish',
+ 'Mushrooms',
+ 'Airport terminal',
+ 'Toxic gas ',
+ 'A runner  ',
+ 'Grocery store',
+ 'Rope',
+ 'Runway safety',
+ 'Animal zoo',
+ 'Veterinary center',
+ 'Salt',
+ 'Chairlift'
+            ],
+            //Other option 1
+            [
+                'People',
+ 'Textbook ',
+ 'Waterslide',
+ 'Cotton',
+ 'Car',
+ 'Ankle',
+ 'Curry',
+ 'Berries',
+ 'Train station ',
+ 'Infectious diseases',
+ 'A medical doctor',
+ 'Pharmacy',
+ 'Harness',
+ 'Pilot ',
+ 'Aquarium',
+ "Children's hospital",
+ 'Sweetener',
+ 'Ski passes'
+            ],
+            //Other option 3
+            [
+                'Legumes',
+ 'Novel ',
+ 'Diving board',
+ 'Leather ',
+ 'Motor Bicycle',
+ 'Knees',
+ 'Trout fish',
+ 'Leaves',
+ 'Bus stop',
+ 'Cleaning products',
+ 'A cyclist',
+ 'Gas station',
+ 'Shoes',
+ 'Flight attendant',
+ 'Emergency room',
+ 'Dog kennel',
+ 'Milk',
+ 'Coffee machine'
+            ]
+        ];
+        
+        //Lists of randomized vignettes, in the appropriate condition
+        var vignettes_rand = [[],[],[],[],[],[],[],[]];
+        
+        //Number of conditions + 2 (for comprehension questions and actors) + 3 (for each answer to the MCQs)
+        var n_elements = 8;
+        
+        //Number of vignettes
+        var n_vignettes = 18;
+        
+        //The following two loops take the existing vignettes and add them to a new list in a shuffled order that corresponds to the order
+        //that is saved in 'shuffled_order'. It does this while preserving the order of the vignettes across the three conditions and the comprehension questions
+        //I.e., michael, michael, michael, dietary requirements, michael?
+        var j;
+        var i;
+        //For every element in the list of vignettes (i.e., unintentional, intentional, ambiguous, and comprehension questions) . .. 
+        for (j = 0; j < n_elements; j++) {
+            // . . . go through each of the elements in each condition list . . . 
+            for(i = 0; i < n_vignettes; i++) {
+                // . . . and, to the list of randomised vignettes (currently black), add the vignette from the corresponding condition . . .
+                //. . . at the position marked in the shuffled vignette_order variable
+                vignettes_rand[j][i] = vignettes[j][vignette_order[i]]
+                
+            }
+        };
+        
+        //Create a 'timeline' -  a list of all the trials
+        var timeline = [];
+        
+        Function to check whether consent has been given
+        var check_consent = function(elem) {
+            if (document.getElementById('consent_checkbox').checked) {
+                return true;
+            }
+            else {
+                alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
+                return false;
+            }
+            return false; 
+        };
+        
+        //Presents external consent page to participants
+         var consent = {
+            type:'external-html',
+            url: "consent.html",
+            cont_btn: "start",
+            check_fn: check_consent
+        };
+        timeline.push(consent);
+    
+        var instructions = {
+            type: 'instructions',
+            pages: ["<div class = 'instructions'><p>In this study, you will view short <b>stories</b>. For each story, you will need to read it and then answer questions about different aspects of the story.</p><p>Please read carefully as you will be asked comprehension questions throughout the task. <b>A bonus payment</b> will be given to you if you get the correct answer to one of these questions, chosen randomly.</p><p>Please click <b>next</b> to begin the task.</p></div>"],
+            show_clickable_nav: true,
+            on_finish: function(data) {
+                data.vignettes = vignettes_rand
+            }
+        };
+        timeline.push(instructions);
+
+        var n_trials = 18;
+        var k;
+        for (k = 0; k < n_trials; k++) {
+            
+            var start1 = jsPsych.randomization.sampleWithoutReplacement([1, 2, 3, 4, 5, 6, 7], 1)[0];
+            var start2 = jsPsych.randomization.sampleWithoutReplacement([1, 2, 3, 4, 5, 6, 7], 1)[0];
+            var start3 = jsPsych.randomization.sampleWithoutReplacement([1, 2, 3, 4, 5, 6, 7], 1)[0];
+            var start4 = jsPsych.randomization.sampleWithoutReplacement([1, 2, 3, 4, 5, 6, 7], 1)[0];
+            var start5 = jsPsych.randomization.sampleWithoutReplacement([1, 2, 3, 4, 5, 6, 7], 1)[0];
+            var start6 = jsPsych.randomization.sampleWithoutReplacement([1, 2, 3, 4, 5, 6, 7], 1)[0];
+            var start7 = jsPsych.randomization.sampleWithoutReplacement([1, 2, 3, 4, 5, 6, 7], 1)[0];
+            var start8 = jsPsych.randomization.sampleWithoutReplacement([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], 1)[0];
+            
+            var disp_vignette = {
+                type: 'instructions',
+                pages: ['<div class = "instructions"><p><b>Read</b> the story below <b>carefully</b> and when you are done click Next to answer questions about it:</p><br><br><p style="font-size:20px;"><i>' + vignettes_rand[order[k]][k] + '</i></p></div>'],
+                show_clickable_nav: true
+            };
+            timeline.push(disp_vignette);
+            
+            var goodness ={
+                type: 'html-slider-response',
+                stimulus: '<div class = "instructions"><p><b>Read</b> the story below <b>carefully</b> and answer the questions that follow:</p><br><br><p style="font-size:20px;"><i>' + vignettes_rand[order[k]][k] + '</i></p><br><br></div><p><b>How good do you think ' + vignettes_rand[4][k] + ' is as a person?</b></p>',
+                labels: ["1</p>Mainly a bad person", "2</p>", "3</p>", "4</p>Neither a bad nor a good person", "5</p>", "6</p>", "7</p>Mainly a good person"],
+                require_movement: true,
+                slider_width: 800,
+                min: 1,
+                max: 7,
+                step: 1,
+                start: start1,
+                on_finish: function(data){
+                    data.scale_start = start1
+                }
+            };
+            timeline.push(goodness);
+
+            var certainty ={
+                type: 'html-slider-response',
+                stimulus: '<div class = "instructions"><p><b>Read</b> the story below <b>carefully</b> and answer the questions that follow:</p><br><br><p style="font-size:20px;"><i>' + vignettes_rand[order[k]][k] + '</i></p><br><br></div><p><b>How certain are you that ' + vignettes_rand[4][k] + ' is a good or bad person?</b></p>',
+                labels: ["1</p>Very uncertain", "2</p>", "3</p>", "4</p>Neither uncertain nor certain", "5</p>", "6</p>", "7</p>Very certain"],
+                require_movement: true,
+                slider_width: 800,
+                min: 1,
+                max: 7,
+                step: 1,
+                start: start2,
+                on_finish: function(data){
+                    data.scale_start = start2
+                }
+            };
+            timeline.push(certainty);
+            
+            var clarity ={
+                type: 'html-slider-response',
+                stimulus: "<div class = 'instructions'><p><b>Read</b> the story below <b>carefully</b> and answer the questions that follow:</p><br><br><p style='font-size:20px;'><i>" + vignettes_rand[order[k]][k] + "</i></p><br><br></div><p><b>How clear are " + vignettes_rand[4][k] + "'s intentions in this story?</b></p>",
+                labels: ["1</p>Completely unclear", "2</p>", "3</p>", "4</p>", "5</p>", "6</p>", "7</p>Completely clear"],
+                require_movement: true,
+                slider_width: 800,
+                min: 1,
+                max: 7,
+                step: 1,
+                start: start3,
+                on_finish: function(data){
+                    data.scale_start = start3
+                }
+            };
+            timeline.push(clarity);
+            
+            if(k == 8){
+                var attn_check ={
+                    type: 'html-slider-response',
+                    stimulus: "<div class = 'instructions'><p><b>Read</b> the story below <b>carefully</b> and answer the questions that follow:</p><br><br><p style='font-size:20px;'><i>" + vignettes_rand[order[k]][k] + "</i></p><br><br></div><p><b>This item is to check that you are paying attention. Please slide the slider all the way to the left before continuing.</b></p>",
+                    labels: ["1</p>Not a lot", "2</p>", "<p>3</p>", "4</p>Neither a lot nor not a lot", "5</p>", "6</p>", "7</p>A lot"],
+                    require_movement: true,
+                    slider_width: 800,
+                    min: 1,
+                    max: 7,
+                    step: 1,
+                    start: 7
+                }
+                timeline.push(attn_check);
+                };
+            
+            
+            var praise_blame ={
+                type: 'html-slider-response',
+                stimulus: "<div class = 'instructions'><p><b>Read</b> the story below <b>carefully</b> and answer the questions that follow:</p><br><br><p style='font-size:20px;'><i>" + vignettes_rand[order[k]][k] + "</i></p><br><br></div><p><b>How much praise or blame does " + vignettes_rand[4][k] + " deserve for their actions?</b></p>",
+                labels: ["1</p>A lot of praise", "2</p>", "<p>3</p>", "4</p>Neither praise nor blame", "5</p>", "6</p>", "7</p>A lot of blame"],
+                require_movement: true,
+                slider_width: 800,
+                min: 1,
+                max: 7,
+                step: 1,
+                start: start4,
+                on_finish: function(data){
+                    data.scale_start = start4
+                }
+            };
+            timeline.push(praise_blame);
+            
+            var interesting ={
+                type: 'html-slider-response',
+                stimulus: "<div class = 'instructions'><p><b>Read</b> the story below <b>carefully</b> and answer the questions that follow:</p><br><br><p style='font-size:20px;'><i>" + vignettes_rand[order[k]][k] + "</i></p><br><br></div><p><b>How interesting do you find this story?</b></p>",
+                labels: ["1</p>Very uninteresting", "2</p>", "3</p>", "4</p>Somewhat interesting", "5</p>", "6</p>", "7</p>Very interesting"],
+                require_movement: true,
+                slider_width: 800,
+                min: 1,
+                max: 7,
+                step: 1,
+                start: start5,
+                on_finish: function(data){
+                    data.scale_start = start5
+                }
+            };
+            timeline.push(interesting);
+            
+            var upsetting ={
+                type: 'html-slider-response',
+                stimulus: "<div class = 'instructions'><p><b>Read</b> the story below <b>carefully</b> and answer the questions that follow:</p><br><br><p style='font-size:20px;'><i>" + vignettes_rand[order[k]][k] + "</i></p><br><br></div><p><b>How personally upsetting did you find this story?</b></p>",
+                labels: ["1</p>Not at all upsetting", "2</p>", "3</p>", "4</p>Somewhat upsetting", "5</p>", "6</p>", "7</p>Very upsetting"],
+                require_movement: true,
+                slider_width: 800,
+                min: 1,
+                max: 7,
+                step: 1,
+                start: start6,
+                on_finish: function(data){
+                    data.scale_start = start6
+                }
+            };
+            timeline.push(upsetting);
+            
+            var believable ={
+                type: 'html-slider-response',
+                stimulus: "<div class = 'instructions'><p><b>Read</b> the story below <b>carefully</b> and answer the questions that follow:</p><br><br><p style='font-size:20px;'><i>" + vignettes_rand[order[k]][k] + "</i></p><br><br></div><p><b>How believable do you find this story?</b></p>",
+                labels: ["1</p>Completely unbelievable", "2</p>", "3</p>", "4</p>", "5</p>", "6</p>", "7</p>Completely believable"],
+                require_movement: true,
+                slider_width: 800,
+                min: 1,
+                max: 7,
+                step: 1,
+                start: start7,
+                on_finish: function(data){
+                    data.scale_start = start7
+                }
+            };
+            timeline.push(believable);
+            
+            var random_sample = {
+                type: 'html-slider-response',
+                stimulus: "<div class = 'instructions'><p><b>Read</b> the story below <b>carefully</b> and answer the questions that follow:</p><br><br><p style='font-size:20px;'><i>" + vignettes_rand[order[k]][k] + "</i></p><br><br></div><p><b>Now imagine 100 random people in the same situation. How many of them would do what " + vignettes_rand[4][k] + ' did?</b></p>',
+                labels: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                min: 0,
+                max: 100,
+                step: 1,
+                start: start8,
+                require_movement: true,
+                slider_width: 800,
+                on_finish: function(data){
+                    data.scale_start = start8
+                }
+            };
+            timeline.push(random_sample);
+            
+            var options = [vignettes_rand[5][k], vignettes_rand[6][k], vignettes_rand[7][k]]
+            var options = jsPsych.randomization.shuffle(options);
+            
+            var mcq = {
+                type: 'survey-multi-choice',
+                questions: [
+                    {
+                        prompt: '<b>' + vignettes_rand[3][k] + '</b>',
+                        name: 'mcq',
+                        options: [options[0], options[1], options[2]],
+                        required: true,
+                        horizontal: false
+                    }
+                ]
+            };
+            timeline.push(mcq);
+        };
+        
+        var demos1 = {
+            type: 'survey-multi-choice',
+            questions:
+            [
+                {
+                    prompt:'<b>To which gender do you most identify?</b>',
+                    name: 'gender', 
+                    options: ['Male', 'Female', 'Other', 'Prefer not to say'],
+                    required: true,
+                    horizontal: false
+                },
+                {
+                    prompt: '<b>Is English your first language?</b>',
+                    name: 'English',
+                    options: ['Yes', 'No'],
+                    required: true,
+                    horizontal: false
+                },
+                {   prompt: '<b>What is the highest level of education you have completed?</b>',
+                    name:'education',
+                    options: ['Some high school','High school', 'Some college', '2 year degree', '4 year degree', 'Postgraduate/Professional degree/other'],
+                    required: true,
+                    horizontal: false
+                },
+                {
+                    prompt: "<b>Do you usually think of yourself as liberal, moderate, conservative, or something else?</b>",
+                    name: 'ideology',
+                    options: ['Very liberal', 'Liberal', 'Slightly liberal', 'Moderate/Middle-of-the-road', 'Slightly conservative', 'Conservative', 'Very Conservative', 'Other', "Don't know/Not political"],
+                    required: true, 
+                    horizontal: false
+                },
+                {
+                    prompt: '<b>What was the total amount of income you earned during the last year?.</b>',
+                    name: 'income',
+                    options: ['Under $5,000', '$5,000 - $10,000', '$10,000 - $15,000', '$15,000 - $25,000', '$25,000 - $35,000', '$35,000 - $50,000', '$50,000 - $65,000', '$65,000 - $80,000', '$80,000 - $100,000', 'Over $100,000'],
+                    required: true,
+                    horizontal: false
+                },
+            ]
+        };
+        timeline.push(demos1);
+        
+        var demos2 = {
+            type: 'survey-text',
+            questions: [
+                {
+                    prompt: '<b>How old are you?</b>',
+                    name: 'age',
+                    required: true}
+            ]   
+        };
+        timeline.push(demos2);
+        
+        var prolific= {
+        type: 'survey-text',
+        questions: [
+                {
+                    prompt: '<br><p><b>Please copy and paste your Prolific ID into the box below:</b>',
+                    name: 'prolific_id',
+                    required: true
+                }
+            ]
+        };
+        timeline.push(prolific);
+        
+        var freeresponse = {
+            type: 'survey-text',
+            questions: [
+                {
+                    prompt: '<b>Please put any comments or questions about this study below</b>',
+                    name: 'free_response',
+                    required: false    
+                }
+            ]
+        };
+        timeline.push(freeresponse);
+        
+        var link = 'LINK';
+        var conclusion = {
+            type: 'html-button-response',
+            stimulus: '<p>Please copy the link below <b>and click the FINISH button</b>.</p><p>Then paste the link in your browser to recieve your payment. <p>https://app.prolific.co/submissions/complete?cc=1E4114F3</p><p>Thank you.</p>',
+            choices: ['CLICK HERE TO FINISH']
+        };
+        timeline.push(conclusion);
+
+        
+        //Runs the trials in the 'timeline' list of trials
+        jsPsych.init({
+            timeline: timeline, 
+            show_progress_bar: true,
+            on_finish: function() {
+                firebase.database().ref(firebase.auth().currentUser.uid).set({
+                    data: jsPsych.data.get().values()
+                });
+            }
+        });
+    </script>
+</html>
